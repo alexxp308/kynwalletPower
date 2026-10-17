@@ -42,3 +42,16 @@
   color: var(--neutral-700);
   cursor: pointer;
 }
+
+.error {
+  display: block;
+  color: var(--danger-600);
+  font-size: 13px;
+  max-width: 100%;
+}
+.wrapper:has(.error) {
+  flex-wrap: wrap;
+}
+.error {
+  flex-basis: 100%;
+}

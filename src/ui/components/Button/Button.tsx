@@ -1,7 +1,8 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import styles from './Button.module.css';
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  ref?: Ref<HTMLButtonElement>;
   variant?: 'primary' | 'secondary' | 'link';
   loading?: boolean;
   loadingLabel?: string;

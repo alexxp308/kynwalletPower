@@ -20,6 +20,8 @@
   --neutral-50: #f4f5f9;
 
   /* Valores sin variable en Figma */
+  /* Registro: variante del degradado con texto blanco >= 4.89:1. */
+  --registration-gradient: linear-gradient(70.7315deg, #b95132 31.698%, #a93413 83.455%);
   --brand-gradient: linear-gradient(121.19deg, #ff8a65 0%, #ef5226 70.71%);
   --card-surface: rgba(255, 255, 255, 0.16);
   --card-border: rgba(255, 255, 255, 0.35);

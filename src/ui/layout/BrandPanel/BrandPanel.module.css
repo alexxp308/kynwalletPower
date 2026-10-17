@@ -105,3 +105,25 @@
     color: var(--on-brand-soft);
   }
 }
+
+@media (min-width: 1024px) {
+  .registration {
+    min-height: 1024px;
+    height: 100%;
+    padding: 64px 56px;
+    gap: 40px;
+    background: var(--registration-gradient);
+  }
+}
+
+@media (min-width: 1024px) {
+  .registration .headline {
+    margin-top: 100px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .registration .subtitle {
+    color: var(--neutral-0);
+  }
+}

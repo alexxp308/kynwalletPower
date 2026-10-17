@@ -1,0 +1,14 @@
+.dialog {
+  max-width: min(520px, calc(100% - 32px));
+  border: 1px solid var(--neutral-border);
+  border-radius: 16px;
+  padding: 28px;
+  color: var(--neutral-900);
+  line-height: 1.6;
+}
+.dialog::backdrop {
+  background: rgba(22, 24, 44, 0.55);
+}
+.dialog h2 {
+  margin-top: 0;
+}
