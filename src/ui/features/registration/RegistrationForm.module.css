@@ -1,0 +1,67 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.heading {
+  margin-bottom: 4px;
+}
+.heading h1 {
+  font-size: 30px;
+  line-height: 36px;
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+.heading p {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--neutral-600);
+  margin: 0;
+}
+.terms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0 4px;
+  position: relative;
+  font-size: 14px;
+}
+.terms > button {
+  font-size: 14px;
+  min-height: 24px;
+}
+.social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.footer {
+  text-align: center;
+  color: var(--neutral-600);
+  font-size: 14px;
+  margin: 0;
+}
+.footer a {
+  color: var(--brand-700);
+  font-weight: 600;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+.footer a:focus-visible {
+  outline: 2px solid var(--neutral-900);
+  outline-offset: 4px;
+}
+.processing {
+  font-size: 14px;
+  color: var(--neutral-600);
+}
+
+.form > div:has(> label) {
+  gap: 8px;
+}
+.form > div > label {
+  line-height: 16px;
+}
