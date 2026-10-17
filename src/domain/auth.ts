@@ -13,3 +13,6 @@ export type DemoAccount = {
   password: string;
   displayName: string;
 };
+
+export type InitialAccountConfig =
+  { kind: 'absent' } | { kind: 'valid'; accounts: DemoAccount[] } | { kind: 'invalid' };
