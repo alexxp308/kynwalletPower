@@ -6,3 +6,9 @@ specs
 .specify
 .claude
 package-lock.json
+
+.tmp/
+playwright-report/
+test-results/
+
+.agents/

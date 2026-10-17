@@ -5,10 +5,9 @@ build/
 coverage/
 *.log
 
-# Variables de entorno locales (Constitución 5.3)
-.env
-.env.local
-.env.*.local
+# Variables de entorno: ignorar por defecto; mantener versionada solo la plantilla
+.env*
+!.env.example
 
 # Sistema y editores
 .DS_Store
@@ -27,3 +26,7 @@ CLAUDE.md
 .copilot/
 .cursor/
 .kiro/
+
+.tmp/
+playwright-report/
+test-results/

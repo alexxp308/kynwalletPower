@@ -9,7 +9,19 @@ const layer = (patterns, message) => ({
 });
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'node_modules', '.specify', '.claude', 'specs'] },
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'node_modules',
+      '.specify',
+      '.claude',
+      'specs',
+      '.tmp',
+      'playwright-report',
+      'test-results',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.strict,
   {
@@ -21,6 +33,10 @@ export default tseslint.config(
       ...jsxA11y.flatConfigs.recommended.rules,
       'no-console': 'error',
     },
+  },
+  {
+    files: ['scripts/**/*.mjs', 'playwright.config.ts', 'e2e/**/*.ts'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
   // Regla de dependencias de Clean Architecture (Constitución 3.2, 3.5)
   {
