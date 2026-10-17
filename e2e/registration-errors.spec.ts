@@ -1,0 +1,25 @@
+import { test, expect } from '@playwright/test';
+import { fillRegistration, login } from './fixtures.js';
+test('SC-002 errores inline, corrección y duplicados', async ({ page }) => {
+  await page.goto('/registro');
+  await page.getByRole('button', { name: 'Crear cuenta', exact: true }).click();
+  await expect(page.getByLabel('Nombre completo')).toBeFocused();
+  await expect(page.getByText('Debes aceptar los términos y condiciones')).toBeVisible();
+  const a = await fillRegistration(page);
+  await page.getByLabel('Correo electrónico').fill('ana@');
+  await page.getByLabel('Confirmar contraseña').fill('different');
+  await page.getByRole('button', { name: 'Crear cuenta', exact: true }).click();
+  await expect(page.getByText('Ingresa un correo electrónico válido')).toBeVisible();
+  await expect(page.getByText('Las contraseñas no coinciden')).toBeVisible();
+  await page.getByLabel('Correo electrónico').fill(a.email);
+  await page.getByLabel('Confirmar contraseña').fill(a.password);
+  await page.getByRole('button', { name: 'Crear cuenta', exact: true }).click();
+  await expect(page).toHaveURL(/[/]login$/);
+  await page.goto('/registro');
+  await fillRegistration(page, { ...a, email: ` ${a.email.toUpperCase()} ` });
+  await page.getByRole('button', { name: 'Crear cuenta', exact: true }).click();
+  await expect(page.getByText('Este correo ya está registrado')).toBeVisible();
+  await page.goto('/login');
+  await login(page, a);
+  await expect(page.getByRole('heading', { name: /Bienvenido,/ })).toBeVisible();
+});
