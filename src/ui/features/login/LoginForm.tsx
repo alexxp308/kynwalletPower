@@ -1,6 +1,6 @@
 import { useEffect, useRef, type FormEvent } from 'react';
 import type { Authenticate } from '@/application/authenticate';
-import { MESSAGES } from '@/domain/messages';
+import { REGISTRATION_MESSAGES, MESSAGES } from '@/domain/messages';
 import { Alert } from '@/ui/components/Alert/Alert';
 import { Button } from '@/ui/components/Button/Button';
 import { Checkbox } from '@/ui/components/Checkbox/Checkbox';
@@ -14,9 +14,17 @@ import styles from './LoginForm.module.css';
 
 type LoginFormProps = {
   authenticate: Authenticate;
+  onRegister?: () => void;
+  registrationNotice?: boolean;
+  onAccessAttempt?: () => void;
 };
 
-export function LoginForm({ authenticate }: LoginFormProps) {
+export function LoginForm({
+  authenticate,
+  onRegister,
+  registrationNotice = false,
+  onAccessAttempt,
+}: LoginFormProps) {
   const { state, change, blur, submit, logout, toggleRemember, showNotice } =
     useLoginForm(authenticate);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -33,6 +41,7 @@ export function LoginForm({ authenticate }: LoginFormProps) {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    onAccessAttempt?.();
     const errors = submit();
     // US3-1: el foco va al primer campo con error.
     if (errors.email) emailRef.current?.focus();
@@ -48,6 +57,8 @@ export function LoginForm({ authenticate }: LoginFormProps) {
         <h1 className={styles.title}>Bienvenido de nuevo</h1>
         <p className={styles.subtitle}>Ingresa a tu cuenta para continuar</p>
       </div>
+
+      {registrationNotice && <Alert tone="info">{REGISTRATION_MESSAGES.SUCCESS}</Alert>}
 
       <TextField
         label="Correo electrónico"
@@ -108,9 +119,23 @@ export function LoginForm({ authenticate }: LoginFormProps) {
 
       <p className={styles.footer}>
         ¿No tienes cuenta?
-        <Button variant="link" onClick={notAvailable}>
-          Regístrate
-        </Button>
+        {onRegister ? (
+          <a
+            href="/registro"
+            onClick={(event) => {
+              if (!event.ctrlKey && !event.metaKey && !event.shiftKey && event.button === 0) {
+                event.preventDefault();
+                onRegister();
+              }
+            }}
+          >
+            Regístrate
+          </a>
+        ) : (
+          <Button variant="link" onClick={notAvailable}>
+            Regístrate
+          </Button>
+        )}
       </p>
     </form>
   );

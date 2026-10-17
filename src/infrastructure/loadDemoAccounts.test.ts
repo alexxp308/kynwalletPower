@@ -4,20 +4,22 @@ const valid = { email: ' Ana@Example.test ', password: 'secreto-123', displayNam
 const raw = (value: unknown) => JSON.stringify(value);
 
 describe('loadDemoAccounts', () => {
+  it('ausente es distinto de inválido', () =>
+    expect(loadDemoAccounts(undefined)).toEqual({ kind: 'absent' }));
   it('JSON válido → cuentas con correo normalizado', () => {
-    expect(loadDemoAccounts(raw([valid]))).toEqual([
-      { email: 'ana@example.test', password: 'secreto-123', displayName: 'Ana' },
-    ]);
+    expect(loadDemoAccounts(raw([valid]))).toEqual({
+      kind: 'valid',
+      accounts: [{ email: 'ana@example.test', password: 'secreto-123', displayName: 'Ana' }],
+    });
   });
 
   it.each([
-    ['indefinido', undefined],
     ['vacío', ''],
     ['JSON inválido', '{no-json'],
     ['no es arreglo', raw(valid)],
     ['arreglo vacío', raw([])],
   ])('devuelve null si la configuración es %s', (_label, value) => {
-    expect(loadDemoAccounts(value)).toBeNull();
+    expect(loadDemoAccounts(value)).toEqual({ kind: 'invalid' });
   });
 
   it.each([
@@ -31,10 +33,17 @@ describe('loadDemoAccounts', () => {
     ['tipos incorrectos', { ...valid, password: 12345678 }],
     ['no es objeto', 'cuenta'],
   ])('devuelve null si una cuenta incumple "%s"', (_rule, account) => {
-    expect(loadDemoAccounts(raw([account]))).toBeNull();
+    expect(loadDemoAccounts(raw([account]))).toEqual({ kind: 'invalid' });
   });
 
   it('devuelve null si hay correos duplicados (sin distinguir mayúsculas)', () => {
-    expect(loadDemoAccounts(raw([valid, { ...valid, email: 'ANA@example.test' }]))).toBeNull();
+    expect(loadDemoAccounts(raw([valid, { ...valid, email: 'ANA@example.test' }]))).toEqual({
+      kind: 'invalid',
+    });
   });
 });
+
+it('rechaza nombre de tipo incorrecto', () =>
+  expect(loadDemoAccounts(JSON.stringify([{ ...valid, displayName: 12 }]))).toEqual({
+    kind: 'invalid',
+  }));
